@@ -4,9 +4,6 @@
 using namespace std;
 
 
-//head: ptr to a Node * which is the head of a linked list
-//return sum of all values in linked list using a recursive approach
-//if head is null return 0
 int recursiveSum(Node* head) {
     if ( head != NULL ) {
         return head->data + recursiveSum(head->next);
@@ -16,9 +13,6 @@ int recursiveSum(Node* head) {
 }
 
 
-//head: ptr to a Node* which is the head of a linked list
-//return the largest value in the linked list using a recursive approach
-//you may assume the list has at least one element
 int recursiveLargestValue(Node* head) {
     int current = head->data;
     int next;
@@ -35,11 +29,6 @@ int recursiveLargestValue(Node* head) {
 }
 
 
-/*Given the head of a linked list, find and return the kth node of the linked list
- *Assume head is the first node
- *If k is larger than the size of the linked list, return NULL
- * Example: n1 -> n2 -> n3 -> n4 -> n5, k = 3
- * Return &n3 */
 Node* recursiveFindKthNode(Node *head, int k){
     if (head == nullptr) {
         return nullptr;
@@ -50,32 +39,33 @@ Node* recursiveFindKthNode(Node *head, int k){
     return recursiveFindKthNode(head->next, k - 1);
 }
 
-/*Given the head of a linked list, delete the kth node from the linked list
- *k will always be less than the length of the linked list
-* 
-* Return the head of the new linked list
-*
-* Example: n1 -> n2 -> n3 -> n4, k = 2
-* Delete n2 and return &n1
-* New list should look like this: n1 -> n3 -> n4
-*/
+
 Node* recursiveDeleteKthNode(Node *head, int k) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    if (head == nullptr) {
+        return nullptr; // Base case: empty list
+    }
+
+    if (k == 1) {
+        Node* temp = head->next;
+        delete head;
+        return temp; // Delete the first node
+    }
+
+    head->next = recursiveDeleteKthNode(head->next, k - 1);
+    return head;
 }
 
 
-/*Given the head of a linked list, delete the first k nodes from the linked list
- *k will always be less than the length of the linked list
-* 
-* Return the head of the new linked list
-*
-* Example: n1 -> n2 -> n3 -> n4, k = 2
-* Delete n1, n2 and return &n3
-*/
 Node* recursiveRemoveKFromFront(Node *head, int k) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    if (head == nullptr || k <= 0) {
+        return head; // Base case: no more nodes to remove
+    }
+
+    Node* newHead = head->next; // Move to the next node
+    delete head; // Delete the current node
+
+    // Recursively remove the remaining k-1 nodes from the new head
+    return recursiveRemoveKFromFront(newHead, k - 1);
 }
 
 
