@@ -3,16 +3,16 @@
 
 using namespace std;
 
-/*All functions MUST be implemented recursively
-* No credit will be given for non-recursive solutions
-*/
-
 
 //head: ptr to a Node * which is the head of a linked list
 //return sum of all values in linked list using a recursive approach
 //if head is null return 0
 int recursiveSum(Node* head) {
-  return -42;
+    if ( head != NULL ) {
+        return head->data + recursiveSum(head->next);
+    } else {
+        return 0;
+    }
 }
 
 
@@ -20,23 +20,35 @@ int recursiveSum(Node* head) {
 //return the largest value in the linked list using a recursive approach
 //you may assume the list has at least one element
 int recursiveLargestValue(Node* head) {
-
-  return -42;
+    int current = head->data;
+    int next;
+    if (head->next == NULL) {
+        return current;
+    } else {
+        next = recursiveLargestValue(head->next); 
+    }
+    if (current > next) {
+        return current;
+    } else {
+        return next;
+    }
 }
 
 
 /*Given the head of a linked list, find and return the kth node of the linked list
  *Assume head is the first node
  *If k is larger than the size of the linked list, return NULL
- *
  * Example: n1 -> n2 -> n3 -> n4 -> n5, k = 3
- * Return &n3
- */
+ * Return &n3 */
 Node* recursiveFindKthNode(Node *head, int k){
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    if (head == nullptr) {
+        return nullptr;
+    }
+    if (k == 1) {
+        return head;
+    }
+    return recursiveFindKthNode(head->next, k - 1);
 }
-
 
 /*Given the head of a linked list, delete the kth node from the linked list
  *k will always be less than the length of the linked list
