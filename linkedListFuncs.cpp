@@ -46,9 +46,9 @@ Node* recursiveDeleteKthNode(Node *head, int k) {
     }
 
     if (k == 1) {
-        Node* temp = head->next;
+        Node* newHead = head->next;
         delete head;
-        return temp; // Delete the first node
+        return newHead; // Delete the first node
     }
 
     head->next = recursiveDeleteKthNode(head->next, k - 1);
@@ -69,29 +69,44 @@ Node* recursiveRemoveKFromFront(Node *head, int k) {
 }
 
 
-/*Given two linked lists, return a NEW linked-list where each element is the sum of the corresponding elements of the input
- * If a linked list has a longer length than the other, treat the corresponding NULL element as a node with value 0
- * 
- * Example: List 1: 1 -> 2 -> 3 -> 12
- * 	    List 2: 4 -> 5 -> 6
- * Return &head of the linked list 5 -> 7 -> 9 -> 12
- */
 Node* recursiveElementwiseSum(Node *head1, Node *head2) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    if (head1 == nullptr && head2 == nullptr) {
+        return nullptr;
+    }
+
+    Node* NewNode = new Node;
+    int Sum = 0;
+
+    if (head1 != nullptr) {
+        Sum += head1->data;
+        head1 = head1->next;
+    }
+
+    if (head2 != nullptr) {
+        Sum += head2->data;
+        head2 = head2->next;
+    }
+
+    NewNode->data = Sum;
+    NewNode->next = recursiveElementwiseSum(head1, head2);
+
+    return NewNode;
 }
 
 
-/*BONUS: Given the heads of two linked lists, splice the second linked list into the first, alternating elements from each list
- * 
- * The first element of the newly arranged linked list will always be head1, unless head1 is NULL (in which case just return head2)
- *
- * You MUST modify the linked lists themselves and DO NOT create another list or any new nodes
- *
- * Example: List 1: 1->2->3, List 2: 4 -> 5 -> 6
- * Return &head of 1 -> 4 -> 2 -> 5 -> 3 -> 6
- */
 Node* recursiveSplice(Node *head1, Node *head2) {
-    return NULL;
-    //STUB: edit with the correct output, according to the lab instructions, using recursion
+    if (head2 == nullptr) {
+        return head1;
+    }
+    if (head1 == nullptr) {
+        return head2;
+    }
+
+    Node* tempVal1 = head1->next;
+    Node* tempVal2 = head2->next;
+
+    head1->next = head2;
+    head2->next = recursiveSplice(tempVal1, tempVal2);
+
+    return head1;
 }
